@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int numUniqueEmails(vector<string>& emails) {
+        unordered_set<string> seen;
+        seen.reserve(emails.size()*2);
+        for (const string &e : emails) {
+            string local, domain;
+            auto atpos = e.find('@');
+            local = e.substr(0, atpos);
+            domain = e.substr(atpos + 1);
+            string norm;
+            for (char c : local) {
+                if (c == '+') break;
+                if (c == '.') continue;
+                norm.push_back(c);
+            }
+            norm.push_back('@');
+            norm += domain;
+            seen.insert(norm);
+        }
+        return (int)seen.size();
+    }
+};
