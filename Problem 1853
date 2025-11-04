@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        vector<int> year(2051, 0);
+        
+        for (auto &log : logs) {
+            year[log[0]]++;   // birth
+            year[log[1]]--;   // death
+        }
+        
+        int maxPop = 0, currPop = 0, resultYear = 1950;
+        
+        for (int y = 1950; y <= 2050; y++) {
+            currPop += year[y];
+            if (currPop > maxPop) {
+                maxPop = currPop;
+                resultYear = y;
+            }
+        }
+        return resultYear;
+    }
+};
