@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> mp;  // value -> index mapping
+
+        for (int i = 0; i < nums.size(); i++) {
+            int need = target - nums[i]; // complement
+
+            // check if complement exists
+            if (mp.find(need) != mp.end()) {
+                return {mp[need], i}; // found pair
+            }
+
+            // store current value and index
+            mp[nums[i]] = i;
+        }
+        return {}; // won't reach here (guaranteed one solution)
+    }
+};
