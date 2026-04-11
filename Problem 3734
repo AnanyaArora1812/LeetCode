@@ -1,0 +1,52 @@
+class Solution(object):
+    def nextPermutation(self, arr):
+        i = len(arr) - 2
+        while i >= 0 and arr[i] >= arr[i+1]:
+            i -= 1
+        
+        if i < 0:
+            return False
+        
+        j = len(arr) - 1
+        while arr[j] <= arr[i]:
+            j -= 1
+        
+        arr[i], arr[j] = arr[j], arr[i]
+        arr[i+1:] = reversed(arr[i+1:])
+        return True
+
+    def buildPalindrome(self, half, mid):
+        return "".join(half) + mid + "".join(reversed(half))
+
+    def lexPalindromicPermutation(self, s, target):
+        from collections import Counter
+        
+        freq = Counter(s)
+        
+        # Step 1: check palindrome validity
+        odd = 0
+        mid = ""
+        for ch in freq:
+            if freq[ch] % 2:
+                odd += 1
+                mid = ch
+        if odd > 1:
+            return ""
+        
+        # Step 2: build half
+        half = []
+        for ch in sorted(freq):
+            half.extend([ch] * (freq[ch] // 2))
+        
+        half.sort()
+        
+        # Step 3: try permutations
+        while True:
+            candidate = self.buildPalindrome(half, mid)
+            if candidate > target:
+                return candidate
+            
+            if not self.nextPermutation(half):
+                break
+        
+        return ""
