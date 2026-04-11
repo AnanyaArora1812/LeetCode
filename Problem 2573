@@ -1,0 +1,43 @@
+class Solution(object):
+    def findTheString(self, lcp):
+        n = len(lcp)
+        
+        # Step 1: validate diagonal
+        for i in range(n):
+            if lcp[i][i] != n - i:
+                return ""
+        
+        # Step 2: build string
+        res = [''] * n
+        curr_char = ord('a')
+        
+        for i in range(n):
+            if res[i] == '':
+                if curr_char > ord('z'):
+                    return ""
+                
+                # assign new character
+                for j in range(i, n):
+                    if lcp[i][j] > 0:
+                        res[j] = chr(curr_char)
+                
+                curr_char += 1
+        
+        # Step 3: validate full LCP
+        dp = [[0]*n for _ in range(n)]
+        
+        for i in range(n-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if res[i] == res[j]:
+                    if i == n-1 or j == n-1:
+                        dp[i][j] = 1
+                    else:
+                        dp[i][j] = dp[i+1][j+1] + 1
+        
+        # compare
+        for i in range(n):
+            for j in range(n):
+                if dp[i][j] != lcp[i][j]:
+                    return ""
+        
+        return "".join(res)
