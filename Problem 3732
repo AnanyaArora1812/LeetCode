@@ -1,0 +1,27 @@
+class Solution(object):
+    def maxProduct(self, nums):
+        nums.sort()
+        
+        def calc(arr):
+            return max(
+                arr[-1] * arr[-2] * arr[-3],
+                arr[0] * arr[1] * arr[-1]
+            )
+        
+        res = float('-inf')
+        
+        # Try replacing ONE element with +100000
+        for i in [0, 1, len(nums)-1, len(nums)-2]:
+            temp = nums[:]
+            temp[i] = 100000
+            temp.sort()
+            res = max(res, calc(temp))
+        
+        # Try replacing ONE element with -100000
+        for i in [0, 1, len(nums)-1, len(nums)-2]:
+            temp = nums[:]
+            temp[i] = -100000
+            temp.sort()
+            res = max(res, calc(temp))
+        
+        return res
