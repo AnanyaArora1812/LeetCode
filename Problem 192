@@ -1,0 +1,10 @@
+from collections import Counter
+
+def word_frequency(text):
+    words = text.split()
+    freq = Counter(words)
+    
+    result = sorted(freq.items(), key=lambda x: (-x[1], x[0]))
+    
+    for word, count in result:
+        print(word, count)
