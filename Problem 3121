@@ -1,0 +1,24 @@
+class Solution:
+    def numberOfSpecialChars(self, word):
+        lower_last = {}
+        upper_first = {}
+
+        for i, ch in enumerate(word):
+
+            if ch.islower():
+                lower_last[ch] = i
+
+            else:
+                c = ch.lower()
+
+                if c not in upper_first:
+                    upper_first[c] = i
+
+        count = 0
+
+        for ch in lower_last:
+            if ch in upper_first:
+                if lower_last[ch] < upper_first[ch]:
+                    count += 1
+
+        return count
